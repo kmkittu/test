@@ -19,3 +19,12 @@ If this command fails, try opening the URL directly in a browser to download man
 curl -LO https://github.com/terraform-linters/tflint/releases/latest/download/tflint_windows_amd64.zip
 Or grab it manually from here:
 https://github.com/terraform-linters/tflint/releases/latest
+
+
+
+Here is the zoom link that will open at that time.
+
+Single click URL to join Zoom: https://oracle.zoom.us/j/5621983658?pwd=YnBac2tiZVAxell4Q2ZlSTRvTE9WZz09&omn=91260445855
+
+Meeting ID: 562 198 3658 
+Password: 65599134
