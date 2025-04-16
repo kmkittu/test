@@ -44,3 +44,9 @@ $ oci identity-domains api-key create \
 >   --fingerprint "3a:88:2b:5d:7a:1e:94:23:cb:91:13:45:0f:e5:0d:92:7f:cf:1c:77" \
 >   --user '{"value": "ocid1.user.oc1..aaaaaaaaf7pvdirqvn6lmvwzd75pwilfzzylrqrah4ye247kex4to67g4uma"}' \
 >   --schemas '["urn:ietf:params:scim:schemas:oracle:idcs:extension:apiKey:User"]'
+
+
+
+oci identity-domains users list \
+  --endpoint https://idcs-7b841dd4db2147d389ea8ca2d93be8f3.us-phoenix-idcs-3.identity.us-phoenix-1.oci.oraclecloud.com \
+  --domain-ocid ocid1.domain.oc1..aaaaaaaabn6436zhyo34dfj4ttgyscssk2joc3w37ghdtbpa625pclq4behq
