@@ -34,7 +34,13 @@ oci  identity-domains user create \
  --emails '[{"value":"john.doe@example.com","type":"work","primary":true}]'
 Here is the zoom link that will open at that time.
 
-Single click URL to join Zoom: https://oracle.zoom.us/j/5621983658?pwd=YnBac2tiZVAxell4Q2ZlSTRvTE9WZz09&omn=91260445855
 
-Meeting ID: 562 198 3658 
-Password: 65599134
+
+
+$ oci identity-domains api-key create \
+>   --endpoint https://idcs-xxx.identity.us-phoenix-1.oci.oraclecloud.com \
+>   --domain-ocid ocid1.domain.oc1..aaaaaaaabn6436zhyo34dfj4ttgyscssk2joc3w37ghdtbpa625pclq4behq \
+>   --key oci_api_key_public.pem \
+>   --fingerprint "3a:88:2b:5d:7a:1e:94:23:cb:91:13:45:0f:e5:0d:92:7f:cf:1c:77" \
+>   --user '{"value": "ocid1.user.oc1..aaaaaaaaf7pvdirqvn6lmvwzd75pwilfzzylrqrah4ye247kex4to67g4uma"}' \
+>   --schemas '["urn:ietf:params:scim:schemas:oracle:idcs:extension:apiKey:User"]'
