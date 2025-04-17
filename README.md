@@ -64,3 +64,66 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArh/DIHra7E9I+49wMBwF4KjeSZQWt/AdQn8E
 --user '{"value": "c81936ecb01b465eb7383f0da9e4a8b0"}' \
 --schemas '["urn:ietf:params:scim:schemas:oracle:idcs:APIKey"]'
 
+
+
+
+
+
+
+#!/bin/bash
+ 
+# Variables
+USER_OCID="ocid1.user.oc1..aaaaaaaas3hfymzutu3dqqwgzuyyz5xdt5i6isvlpprcqr3bwr4xklvbayqa"
+DOMAIN_ID="ocid1.domain.oc1..aaaaaaaaiefixls7ka27nihtmbxqjfwejppiayhvzmwe6sr7gkhwzswhxovq"
+TENANCY_OCID="ocid1.tenancy.oc1..aaaaaaaayhlzwx4nxan2uv4lm6dydhwrgzbppwvacq4g2oexdafz2ndhvaza"
+COMPARTMENT_ID="ocid1.compartment.oc1..aaaaaaaamalrh277nou454ys2vwvv5iwsxyblgu7dc6bfo6nv4dkghczpqoa"
+VAULT_ID="ocid1.vault.oc1.phx.eft7kd4baaax4.abyhqljsbuzf5wh7j2qcv7larlousneiybedinnq4bjii3xsbmzfudzekm2a"
+KEY_ID="ocid1.key.oc1.phx.eft7kd4baaax4.abyhqljt3a6m6h7jbbkpeuzkd5p5u5hfldhhaqjztekjambu633jbxyufdxa"
+REGION="us-phoenix-1"
+ENDPOINT="https://idcs-5dde0530f253443185531a0f35e7e1c8.us-phoenix-idcs-3.identity.us-phoenix-1.oci.oraclecloud.com:443"
+PASSPHRASE="admin@12345"
+SECRET_ID="ocid1.vaultsecret.oc1.phx.amaaaaaamialooiar5rpfyf5twrflo3mzrtolnev5ojfeybp3ay4fzgzdzzq"
+ 
+# Key paths
+KEY_DIR="$HOME/.oci"
+mkdir -p "$KEY_DIR"
+PRIVATE_KEY_PATH="$KEY_DIR/new_private.pem"
+PUBLIC_KEY_PATH="$KEY_DIR/new_public.pem"
+SECRET_PAYLOAD="$KEY_DIR/secret.txt"
+ 
+# Generating API keys
+openssl genrsa -aes128 -passout pass:$PASSPHRASE -out "$PRIVATE_KEY_PATH" 2048
+openssl rsa -pubout -in "$PRIVATE_KEY_PATH" -passin pass:$PASSPHRASE -out "$PUBLIC_KEY_PATH"
+ 
+# Extracting the fingerprint
+FINGERPRINT=$(openssl rsa -in "$PRIVATE_KEY_PATH" -pubout -outform DER | openssl md5 -c | awk '{print $2}')
+echo "Fingerprint: $FINGERPRINT"
+ 
+# Uploading public key to Identity domain user
+oci identity-domains api-key create \
+  --endpoint "$DOMAIN_ENDPOINT" \
+  --domain-ocid "$DOMAIN_OCID" \
+  --key "$(cat $PUBLIC_KEY_PATH)" \
+  --fingerprint "$FINGERPRINT" \
+  --schemas '["urn:ietf:params:scim:schemas:oracle:idcs:ApiKey"]' \
+  --user '{"value": "e4b98c6896f54af29ef76d45b39c3880"}'
+ 
+# Create Ordered Secret Content file
+{
+echo "user=$USER_OCID"
+echo "fingerprint=$FINGERPRINT"
+echo "tenancy=$TENANCY_OCID"
+echo "region=$REGION"
+echo -n "private_key="; cat "$PRIVATE_KEY_PATH" | tr -d '\r'
+echo -n "public_key="; cat "$PUBLIC_KEY_PATH" | tr -d '\r'
+} > "$SECRET_PAYLOAD"
+ 
+# UPLOADsecret content to vault
+oci vault secret update-base64 \
+  --secret-id "$SECRET_ID" \
+  --secret-content-content "$(base64 < "$SECRET_PAYLOAD")" \
+  --secret-content-name "api_key" \
+  --secret-content-stage CURRENT
+ 
+echo "API key uploaded and secret stored in OCI vault successfully"
+
