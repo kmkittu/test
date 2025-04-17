@@ -50,3 +50,17 @@ $ oci identity-domains api-key create \
 oci identity-domains users list \
   --endpoint https://idcs-7b841dd4db2147d389ea8ca2d93be8f3.us-phoenix-idcs-3.identity.us-phoenix-1.oci.oraclecloud.com \
   --domain-ocid ocid1.domain.oc1..aaaaaaaabn6436zhyo34dfj4ttgyscssk2joc3w37ghdtbpa625pclq4behq
+
+
+
+
+  oci identity-domains api-key create \
+--endpoint https://idcs-7b841dd4db2147d389ea8ca2d93be8f3.us-phoenix-idcs-3.identity.us-phoenix-1.oci.oraclecloud.com:443 \
+--domain-ocid ocid1.domain.oc1..aaaaaaaabn6436zhyo34dfj4ttgyscssk2joc3w37ghdtbpa625pclq4behq \
+--key "-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArh/DIHra7E9I+49wMBwF4KjeSZQWt/AdQn8EzshyQodUA3zR2qyVPZ2iQFVGZywGDfG/JQooASDiyN032PIABeDqE6XS9kXkvziesqlrGqG97cJtS+A8gATfSiBYs3zRyHlTCU/1uUi7DNf8jP2942MPCg9XqC9e0UwQWsmMCuB8yuvoLKM6rnQDT9szOkpB+kDLnNI/9++WQ6y0pWrvTZSmbWPVSINe1ZcktsDcK3GXuN4UNJcOKqkvsCaAC94zeEbDJW0dhzZiJdQ1FtrRYKuXtYzj4CoMogdmBiI/X2HYOJH15eVEsKa8S7LJqvZZJwPMxmxRtF7ypcrFGW3GDQIDAQAB
+-----END PUBLIC KEY-----" \
+--fingerprint "f4:db:be:7b:c9:6e:40:0f:4f:c5:db:58:c1:9b:0f:15" \
+--user '{"value": "c81936ecb01b465eb7383f0da9e4a8b0"}' \
+--schemas '["urn:ietf:params:scim:schemas:oracle:idcs:APIKey"]'
+
